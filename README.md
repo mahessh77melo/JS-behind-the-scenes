@@ -144,7 +144,7 @@ In compilation, the whole code is converted into machine code all at one time an
 
 In Interpretation, the whole code however, has to be converted into machine code, but the execution occurs simultaneously. As the compiler or *engine* reads the code line by line, it is converted into machine code just before execution.
 
-As said earlier, interpreted languages are  slow to be interpreted.
+As said earlier,dynamically interpreted languages are  slow to be interpreted.
 
 This was acceptable until JavaScript was used only to annoy the users with childlish tricks in the web and color changing buttons etc. But in modern day world  where  ESnext is the trend, this cannot be acceptable. That's why JS is a **Just in time compiled** language. The execution starts as soon as the compilation is over. Execution is not manually triggered by the user. Conclusion......
 
@@ -617,7 +617,19 @@ person.calcAge();
 console.log(person);
 ```
 
-Now all we are going to talk about is the `printAge` arrow function inside the calcAge function. Cus we are already pretty clear with the other parts of the code. 
+Now all we are going to talk about is the `printAge` arrow function inside the calcAge function. Cus we are already pretty clear with the other parts of the code. Now the above written code gives the following output.
+
+```js
+'Mahesh is 21 years old and is born in 1999'
+{
+  name: 'Mahesh',
+  birthYear: 1999,
+  calcAge: [Function: calcAge],
+  age: 21
+}
+```
+
+Everything works perfectly. This is because...
 
 `this.name` inside the arrow func. returns the `name` attribute of the `this` object which is currently pointing to the object that is called the outer function. And it's the same case with `this.birthYear`. But `age` is simply the variable in the outer scope.
 
