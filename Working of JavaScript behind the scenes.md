@@ -1,10 +1,8 @@
 # Working of JavaScript behind the scenes
 
-
+---
 
 ## Features Of JavaScript :
-
----
 
 <br>
 
