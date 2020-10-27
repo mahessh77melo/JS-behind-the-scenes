@@ -462,8 +462,6 @@ This explains why multiple functions can have the same argument names. Because t
 
 **NOTE OF THE DAY:** The `window` object has access to the var global variables. But it does not have access to the global `const` and `let`.
 
-
-
 ### Closures : A complex application of scopes :-
 
 So we would have come across some weird code blocks wherin functions return functions....WAIT WHATTT????? yes they doo....And vscode shows their prototype like this....
@@ -510,6 +508,15 @@ const booker = secureBooking();
 booker();
 booker();
 booker();
+```
+Nothing happens even after the secureBooking function is called and is popped out of the execution context. Drama starts after the *booker* function is called...not one, not two, not three, not four, not five...alright cut it.. that was a james reference 😂.
+Coming back to cricket, the passengers variable was incremented 3 times. 
+
+```
+// Output
+1 passengers.
+2 passengers.
+3 passengers.
 ```
 
 So even after the secureBooking functions comes out of the execution context , it is   able to access the parent scope variables (passengers).  The returned value which is a  function is stored in the booker variable. So the booker function now has access to the passengers variable which was  initially not in its scope.
