@@ -462,6 +462,60 @@ This explains why multiple functions can have the same argument names. Because t
 
 **NOTE OF THE DAY:** The `window` object has access to the var global variables. But it does not have access to the global `const` and `let`.
 
+
+
+### Closures : A complex application of scopes :-
+
+So we would have come across some weird code blocks wherin functions return functions....WAIT WHATTT????? yes they doo....And vscode shows their prototype like this....
+
+```js
+const doubleArrow: () => () => void
+```
+
+And they resemble this structure, they are also similar to the `bind`. But let's stick to the point. 
+
+The noob version of that funciton returning function would be
+
+```js
+function greet(greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+}
+greet('hey')('Mahesh');
+// can also be written as
+const inner = greet('Hi');
+inner('Kevin Durant'); // same result
+```
+
+Let that sink in........!!!!!!
+
+Now onto closures...
+
+Inner functions have access to the parent function's scope, Even after they are returned. Yes, read that again...*even after they are returned*. To make it really clear... 
+
+A function always has access to the variable environment of the execution context in  which is was created.
+
+Example time...
+
+```js
+const secureBooking = () => {
+  let passengers = 0;
+  return () => {
+    passengers++;
+    console.log(`${passengers} passengers.`);
+  };
+};
+const booker = secureBooking();
+booker();
+booker();
+booker();
+```
+
+So even after the secureBooking functions comes out of the execution context , it is   able to access the parent scope variables (passengers).  The returned value which is a  function is stored in the booker variable. So the booker function now has access to the passengers variable which was  initially not in its scope.
+
+<br>
+
 ---
 
 <br>
