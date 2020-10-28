@@ -509,6 +509,7 @@ booker();
 booker();
 booker();
 ```
+
 Nothing happens even after the secureBooking function is called and is popped out of the execution context. Drama starts after the *booker* function is called...not one, not two, not three, not four, not five...alright cut it.. that was a james reference 😂.
 Coming back to cricket, the passengers variable was incremented 3 times. 
 
