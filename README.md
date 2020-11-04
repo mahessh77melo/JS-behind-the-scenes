@@ -784,3 +784,93 @@ The `this` keyword inside the arrow function now returns an empty object `{}`.
 <br>
 
 ---
+
+## OOPsssss!!!!!!!
+
+Lemme get to the point straight away here, no messing around!
+
+There are three ways to create an object.
+
+1. Function constructor
+
+2. ES6 classes which are just a *syntactic sugar*.
+
+3. `Object.create()`
+
+### Function constructor :
+
+Okay, I am running out of time here, since my semester exams are fast approaching and the fact that me learning js is highly irrelevant to my exams makes me sick. Alright!! no messing around. 
+
+The general convention is that function constructors should start with a capital letters and they can only be a normal function and not an *arrow guy*. We'll get to know why.
+
+```js
+const Person = function (name, age) {
+  console.log(this);
+};
+new Person('Lebron', 36);
+```
+
+The output in the console would be an empty object, but like this ```Person {}```
+
+When a function constructor is called, it does four things.
+
+1. A new {} is created
+
+2. The function is called and the **this** keyword is set to that empty {}.
+
+3. {} is linked to something called a prototype.
+
+4. The function automatically returns the {}.
+
+Now u guys would have prolly guessed the next step...
+
+```js
+const Person = function (name, age) {
+  this.name = name;
+  this.age = age;
+};
+const lebron = new Person('Lebron', 36);
+console.log(lebron);
+
+```
+
+The ouput would be exactly what we would have expected, an **OBJ** for  **LBJ**.
+
+```js
+Person {name: "Lebron", age: 36}
+```
+
+All we needed to do was to fill the empty *this* object.
+
+**Side note:** Credits to vscode for yelling at me for using a 90s kids' method
+
+```
+const Person: typeof Person
+This constructor function may be converted to a class declaration.ts(80002)
+```
+
+Technically speaking, in js when objects of a class are created, they are referred to as *instances*. But we did not create a class here. We can further improvise this ..
+
+```js
+const Person = function (name, age) {
+  this.name = name;
+  this.age = age;
+  this.calcByear = () => {
+    const theWorstYear = 2020;
+    this.birthYear = theWorstYear - this.age;
+  };
+};
+const lebron = new Person('Lebron', 36);
+lebron.calcByear();
+console.log(lebron);
+```
+
+OUTPUT....
+
+```js
+Person {name: "Lebron", age: 36, birthYear: 1984, calcByear: ƒ}
+```
+
+The reason i used `calcByear` as an arrow function because they don't have a *this* of their own and they inherit *this*. 
+
+**A BIG BUT:** using methods inside of function constructors is considered a **very bad practice**, because ,everytime an object is created using the constructor, *a copy* of that method is created. 1000 objects, okay..but 1000 copies of the same method??? nahhh!!
