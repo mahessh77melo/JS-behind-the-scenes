@@ -831,7 +831,6 @@ const Person = function (name, age) {
 };
 const lebron = new Person('Lebron', 36);
 console.log(lebron);
-
 ```
 
 The ouput would be exactly what we would have expected, an **OBJ** for  **LBJ**.
@@ -874,3 +873,91 @@ Person {name: "Lebron", age: 36, birthYear: 1984, calcByear: ƒ}
 The reason i used `calcByear` as an arrow function because they don't have a *this* of their own and they inherit *this*. 
 
 **A BIG BUT:** using methods inside of function constructors is considered a **very bad practice**, because ,everytime an object is created using the constructor, *a copy* of that method is created. 1000 objects, okay..but 1000 copies of the same method??? nahhh!!
+
+There is a workaround.!
+
+```js
+const Person = function (name, age) {
+  this.name = name;
+  this.age = age;
+};
+const lebron = new Person('Lebron', 36);
+Person.prototype.calcByear = function () {
+  const theWorstYear = 2020;
+  this.birthYear = theWorstYear - this.age;
+};
+console.log(Person.prototype);
+lebron.calcByear();
+console.log(lebron);
+```
+
+The output seems to be like this, make sure to take a look at the prototype of **Person**.
+
+```
+{calcByear: ƒ, constructor: ƒ}
+calcByear: ƒ ()
+constructor: ƒ (name, age)
+__proto__: Object
+```
+
+The prototype has two functions now, the one that we created and the one that it owns. Also note that I have changed the arrow function to normal function because we don't want an inherited *this* keyword that point to the *window* object xD.
+
+Now multiple copies of the function are not created.
+
+#### How is this possible :
+
+Because each object has access to a property called prototype or more specifically `__proto__`. `lebron.__proto__` gives the same result as `Person.prototype`.
+
+The functions that we load into the function constructor's prototype are inherited by the object's `__proto__` attribute and that's why js is js.
+
+```js
+console.log(Person.prototype === lebron.__proto__)
+// true da dei
+```
+
+**Nerd things:** We can also inherit properties from prototypes, but it won't show up in the object until we ask for it....confusing, hell yeah !!! 
+
+```js
+Person.prototype.team = 'Los Angeles Lakers';
+console.log(Person.prototype);
+lebron.calcByear();
+console.log(lebron);
+console.log(lebron.hasOwnProperty('name'), lebron.hasOwnProperty('team'));
+console.log(lebron.team);
+```
+
+Nothing up fishy up there, wait for the console output...
+
+```js
+//prototype
+{team: "Los Angeles Lakers", calcByear: ƒ, constructor: ƒ}
+//object
+Person {name: "Lebron", age: 36, birthYear: 1984} // no team property
+// own property 'name' and 'team'
+true false
+//asking for  it
+'Los Angeles Lakers - Champs2020'
+```
+
+Where did the extra work in the string come from. Well maybe js knows it xD.
+
+**Conclusion**: The prototype chain is similar to the scope chain. JS looks for the property or method in the same object at first, or else, it looks in the parent prototype, in this case, the prototype of `Person`. 
+
+Final BOMB...
+
+```js
+console.log(lebron.hasOwnProperty('hasOwnProperty')); //false
+```
+
+This searched first in the object itself, to be more specific, inside the {}. When it can't find this method, it jumps to `Person.prototype`. When it can't find it there too...It jumps further to the `__proto__` property, which itself is an object, and there lies our guy -->, `hasOwnProperty`. Live with it !!!
+
+<br>
+
+Don't try this at home..
+```js
+const header = document.querySelector('h1');
+console.log(header.__proto__.__proto__.__proto__.__proto__.__proto__)
+// and on and on and on
+```
+
+---
