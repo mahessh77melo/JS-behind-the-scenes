@@ -954,6 +954,7 @@ This searched first in the object itself, to be more specific, inside the {}. Wh
 <br>
 
 Don't try this at home..
+
 ```js
 const header = document.querySelector('h1');
 console.log(header.__proto__.__proto__.__proto__.__proto__.__proto__)
@@ -961,3 +962,42 @@ console.log(header.__proto__.__proto__.__proto__.__proto__.__proto__)
 ```
 
 ---
+
+### ES6 classes
+
+In es6 , classes are still implemented in the same way using prototypal inheritance. They are just a *syntactic sugar*.The only diff is that the syntax makes more sense. Let us jump straight into the code block.....
+
+```js
+class Player {
+  constructor(name, team, age) {
+    this.name = name;
+    this.team = team;
+    this.age = age;
+  }
+  calBirthYear() {
+    const theWorstYear = 2020;
+    this.birthYear = theWorstYear - this.age;
+  }
+}
+const kingJames = new Player('Lebron James', 'Lakers', 36);
+const slimReaper = new Player('Kevin Durant', 'Nets', 32);
+kingJames.calBirthYear();
+console.log(kingJames);
+slimReaper.calBirthYear();
+console.log(slimReaper);
+console.log(kingJames.__proto__ === Player.prototype);
+console.log(slimReaper.hasOwnProperty('calBirthYear'));
+```
+
+output...
+
+```js
+Player {name: "Lebron James", team: "Lakers", age: 36, birthYear: 1984}
+Player {name: "Kevin Durant", team: "Nets", age: 32, birthYear: 1988}
+true
+false
+```
+
+The methods are definedjust like the constructor method, except that the constructor method  need not be called, it is the one  that initializes the object. The other methods that are  defined in the class definition are  not part of the object, but a part of their prototypes, as clearly shown in the last line. Just get on with the syntax now !
+
+**Note :** Classes are not hoisted like function declarations or variables. And another point is that they can be returned from a function since they are  *1st class citizens*.
