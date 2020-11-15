@@ -1001,3 +1001,38 @@ false
 The methods are definedjust like the constructor method, except that the constructor method  need not be called, it is the one  that initializes the object. The other methods that are  defined in the class definition are  not part of the object, but a part of their prototypes, as clearly shown in the last line. Just get on with the syntax now !
 
 **Note :** Classes are not hoisted like function declarations or variables. And another point is that they can be returned from a function since they are  *1st class citizens*.
+
+<br />
+
+## Async Code and the EVENT LOOP :-
+
+<br>
+
+Unlike JAVA, JavaScript is not multi-threaded.... but how does it acheive a **Non blocking Concurrency model** ?? Async functions like `fetch`, objects like `Promise` are executed not in the javaScript engine directly. They are executed with the help of web APIs. These async codes, once they are called, gets pushed to the *call stack*, but since they are asynchronous, they run in the background and the main thread isn't stopped. This is a pretty advanced concept and cannot be understood just by reading a paragraph written by some random Lebron James fan from South India. This needs a code block :smile:.
+
+```js
+console.log('test start');
+setTimeout(() => console.log('timeout callback'), 0);
+console.log('next line after setTimeout');
+Promise.resolve('Promise resolved').then(res => console.log(res));
+console.log('test over');
+```
+
+The output for this codeblock would be a little bit confusing....
+```
+test start
+next line after setTimeout
+test over
+Promise resolved
+timeout callback
+```
+
+<br>
+ 
+In general, `Promises` are given priority in the execution stack over normal callback functions which are also considered *asynchronous* since they are destined to be called in the future. That is why, the 'Promise resolved' string was printed first before the 'timeout callback'.
+
+But..wait what?? the delay for setTimeout was **0**. ZERO !!  
+
+These files are not directly executed in the execution stack, therfore as soon as they are read by the JS engine, they are pushed to the background. Meanwhile, the global execution context is carrying on its work. After the global context is over, these results are printed by the JS runtime. 
+
+**Note :** If you have difficulty in understanding these concepts, (like i had at the time of scribling down this), please go back to the early parts of this doc, (just like i did).
