@@ -339,7 +339,7 @@ function third(){
 // this throws a reference error since c is not available to third() func
 ```
 
-**TAKE-AWAY :** The scope chain is a one way street. The outer scope never have access to the inner scoped variables.
+**TAKE-AWAY :** The scope chain is a one way street. The outer scope never has access to the inner scoped variables.
 
 A scope chain is equal to adding all the environment variables of all the parent scopes.
 
@@ -960,6 +960,27 @@ const header = document.querySelector('h1');
 console.log(header.__proto__.__proto__.__proto__.__proto__.__proto__)
 // and on and on and on
 ```
+
+<br>
+
+### Nerd point 
+
+`Object.freeze()` is used to make an object immutable. One cannot add a new property, or erase an existing one, or rewrite an existing property after calling this method over that specific object. (Arrays are also objects - in case you forgot).
+
+**Example** 
+
+```js
+const earnings = Object.freeze({
+  joseph: 100000,
+  vijay : 200000
+})
+earnings.thalapathy = 300000; 
+// this above line changes nothing, the object is unaltered
+// in strict mode, this throws an error
+console.log(earnings);
+```
+
+<br>
 
 ---
 
